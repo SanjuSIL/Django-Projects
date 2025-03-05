@@ -1,0 +1,73 @@
+I want you help in making an HTML responsive page. I hope you can help me on this. I will give you the details of my requirements. Please ask me the questions if you have so that I can provide the answers for the same before you provide me the html page and the source code of the same.
+
+I want a page to look like a Chat Window with multiple vertical divisions divided by differential layers. From the Top, I want a Header layer to have the Company Name and Logo which can cover about 12.5% of the total area. Then I want the second layer of about 27.5% area to have a Scrolling Image Tiles which will have about 3 or 4 or 5 image tiles horizontally scrolling in the area. The Third layer is area for the Chat Responses received from the server which can be about 35% of the area. The Forth layer is the Chat Request Area which will be 20% of the area with a Send Button on the Right side. Inside this Chat Request Area, there should be Pre Defined 3 or 4 Buttons covering area after leaving the Users to type Text. Inside the button, there shall be Texts "Order Status", "Menu", "Help", "Rating". These Buttons shall be in Horizontal Scrolling model. The Balance 5% shall be the last Layer with the Product name or the branding area to have a text or image. I also want a back ground to have the name of the product in Watermark.
+
+As soon as the page is loaded, I want the Page to ask me Permission in a Nice way requesting me to grand Permission to Play Sound, Bring Notification, bring Vibration when the Browser is in Sleep Mode or in Open mode. I want the Coding to have the Permission handling in the way as required. 
+
+In the Chat Response Window, I want the Text " Hi, Good Way, Welcome!" In the First Line and in the Next Line " Kindly Enter the Bill Number and Send so that we can Track your Order".
+
+The Functionality of the Page shall be to get loaded when the user enter the URL and the page should as the Permissions for Vibration, use Audio, Notification and other relevant Permissions. Once the page loads, there should be default Voice message that says "Hi, Welcome, Good Day. Could you please enter the Bill Number and Send so that I can Search the Order Status". There shall be provision for a Pop Up asking the Customer to disable further notifications. In case the Person press the Disable, no further notification should come, else every 1 Minute the Welcome Message sound and Request to enter the Bill Number should be played.     
+
+Further, I want the area to add the API so that the API with the Entered Bill number can be send and the Response Received can be Displayed. The Responses will be  "Processing" and then "Ready". Once the Response Ready is received, the Sound "Your Order is Ready" with a Ding Dong Sound shall be played along with Vibration. There shall be provision for a Pop Up asking the Customer to disable further notifications. In case the Person press the Disable, no further notification should come, else every 1 Minute the Order Ready Status Sound and the Ding Dong sound should be played.    
+
+You can add Dummy images for the time being and I can replace the same later.
+
+
+
+1. You can add a Sample Logo and allow me to change later. No Need Scrollable.
+2. Image Tiles are infinite, and Clickable. It should be Auto Scroll. You can choose the best Dimensions.
+3. I am not sure. Which ever is nice. Bubble Better I think. No need Scrollbar. Better to have word wrapping.
+4. Yes, Button shall be visible. Yes, it can expand as required.
+5. Yes, can scroll as required. You can use any Good Looking Model of the Pop Up.
+6. Permission should be auto Triggered. If Permission is denied, Please display the Message "As the Permissions are Denied, the Service is non usage. Please share the Information on How this Permission can be done manually"  also a button to click for the Customer to bring the Permission again so that he can click to accept or allow. You can use the Nice Looking Pop Up.
+7. The Sounds shall be Text to Speech. You can use the same Text as of now. And the Changes i do the Code may be added as Text to Speech please. You can use Browser Based or Popups as suitable.
+8. I will use API. As of now, i do not have it ready. you can use sample. It is json type.
+9. Notification shall be Nice pop ups. You can choose. The Notification shall be disabled if the user clicks Disable only.
+10. Yes, it is Responsive. Your Choice please.
+
+
+
+
+Thanks. I want some changes
+1. Want the Permissions as Pop Up only
+2. I want a Outline Border for the Layers I had Mentioned.
+3. Pls Add some Sample Images and Show as a Good Looking Demo
+
+
+I did not find the solution Formatted. Please see the Image of the Solution received. the Pop up did not come Automatically. No Sample Images were added. Can you please Resolve all these and give me the Updated Code.
+
+
+
+Please Find the Output received with the code and the requirement image. Please modify the same as per this need and give me the output
+
+
+
+I will need some more changes. I will explain in Detail.
+1. At First I want the Back group colour to be Off white.
+2. Instead of 5 Image tile loading, I want the 5 Images or as many images to continuously circulate
+3. The Responses from Server shall be left Aligned and the Responses from Customer shall be right alligned.
+4. The background of the Server Response shall be different from the response of the Customer.
+5. The Menu Button shall be of same shape and the Background colours shall be different.
+6. The Send button Text ARea shall be little bigger. and the Button shall be double size in height.
+7. All background shall be different colour aesthetically matching.
+8. Company Logo shall be Left Alligned in the TOp and the Company Name shall be Right Alligned in the Top
+
+
+
+Thanks 
+1. The Responses send by the User Should be Right Alligned.
+2. In the Pop Up to Disable the Notification, there should be a Ok option and the Disable Notification Option.
+3. In case the Customer Press Ok, the Notification for the User to Enter the Bill number should be repeated after  1 Minute. Inc ase the user disable the Notification, then no more notification should be played
+
+
+
+Thanks, 
+I want some changes.
+1. The Text Message, Hi Good Day, Please enter the Bill Number should not be played, again, if the User has Entered the Bill number. The Dialog Box shall have an Ok Button and Disable Button. if User Press ok, the Pop up should be closed and the Text Message should be played again after 1 Min, if the user has not enter the Bill number. If the User has clicked disable, then the message should not be played again. 
+2. The Text Message Your Order is Ready. The Dialog Box shall have an Ok Button and Disable Button. if User Press ok, the Pop up should be closed and the Text Message should be played again after 1 Min, if the user has not enter the Bill number. If the User has clicked disable, then the message should not be played again.
+3. In case of Images on the Top scrolling, Please add more images so that no blank space is seen after all messages are played. The First message should come immediately after the Last Image. 
+ Can you pls modify and send me all the files so that I can copy the same.
+
+
+
+

@@ -1,0 +1,122 @@
+:root {
+    --primary-color: #2A3B47;
+    --secondary-color: #3F72AF;
+    --accent-color: #7EC8E3;
+    --light-bg: #F8F9FA;
+    --dark-text: #2A3B47;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Prevents right-side overflow */
+}
+
+.container {
+    width: 100%; /* Ensures it stretches fully */
+    max-width: 100%; /* Prevents Bootstrap from limiting width */
+    margin: 0; /* Removes any extra margins */
+    padding: 0; /* Removes default padding */
+}
+
+.container-wrapper {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-bottom: 3px solid var(--accent-color);
+}
+
+.image-tiles {
+    height: 27.5vh;
+    background: var(--light-bg);
+    overflow-x: auto;
+}
+
+.tiles-container {
+    animation: scroll 20s linear infinite;
+    min-width: fit-content;
+}
+
+.tile {
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border: 2px solid var(--accent-color);
+}
+
+.chat-request {
+    height: 20vh;
+    background: var(--light-bg);
+}
+.chat-response {
+    height: 35vh;
+    background: white;
+    border-bottom: 2px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.message-bubble {
+    max-width: 75%;
+    padding: 12px 18px;
+    border-radius: 15px;
+    margin: 8px 0;
+    word-wrap: break-word;
+    display: inline-block;
+    clear: both;
+}
+
+.message-bubble.server {
+    background: var(--secondary-color);
+    color: white;
+    border-bottom-left-radius: 5px;
+    align-self: flex-start;
+}
+
+.message-bubble.user {
+    background: var(--primary-color);
+    color: white;
+    border-bottom-right-radius: 5px;
+    align-self: flex-end;
+}
+
+
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.branding {
+    background: var(--primary-color);
+    color: white;
+    height: 5vh;
+}
+
+.menu-button {
+    background: var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(63, 114, 175, 0.3);
+}
+
+#send-button {
+    background: var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+.modal-content {
+    border: 2px solid var(--accent-color);
+    border-radius: 15px;
+}

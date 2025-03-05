@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Food Order Tracker</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  
+  <!-- Main CSS Files -->
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  {% include 'includes/header.html' %}
+
+  <main class="main">
+    <!-- Hero Section -->
+    <section id="hero" class="hero section light-background">
+      <div class="container">
+          <div class="row gy-4 justify-content-center justify-content-lg-between">
+              <!-- Left Column: Initial Content & Order Status -->
+              <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                  <!-- Initial Search Content -->
+                   
+                <div class="col-lg-5 order-1 order-lg-2 mt-5 hero-img" data-aos="zoom-out">
+                    <img src="{% static 'orders/hero-img.png' %}" class="img-fluid animated" alt="">
+                </div>
+                <!-- Right Column: Image -->
+                  <div id="initial-content">
+                      <h1>Enjoy Your Healthy<br>Delicious Food</h1>
+                      <p>Hunger? No more guessing. Track your order's progress.</p>
+                      <div class="d-flex">
+                          <input type="number" id="token_no" class="form-control me-2" placeholder="Enter Token No" style="max-width: 180px;">
+                          <button class="btn" id="btn-tracker" onclick="checkOrderStatus()">Track Order</button>
+                      </div>
+                  </div>
+                  
+                  <!-- Order Status Container (hidden initially) -->
+                  <div id="orderStatusContainer" class="order-status-div" style="display: none;">
+                      <h4 id="order-status-title"></h4>
+                      <p id="order-status-message"></p>
+                      <div class="detail-row">
+                          <div class="detail-label">Order ID:</div>
+                          <div class="detail-value" id="order-id"></div>
+                      </div>
+                      <div class="detail-row">
+                          <div class="detail-label">Restaurant:</div>
+                          <div class="detail-value" id="order-restaurant"></div>
+                      </div>
+                      <div class="detail-row">
+                          <div class="detail-label">Status:</div>
+                          <div class="detail-value" id="order-current-status"></div>
+                      </div>
+                  </div>
+              </div>
+              
+              
+          </div>
+      </div>
+    </section>
+    <!-- /Hero Section -->
+    <div id="notification-prompt" style="display: none; position: fixed; top: 20px; left: 20px; background-color: white; border: 1px solid #ccc; padding: 20px; z-index: 1000;">
+        <p>Enable notifications to receive real-time order updates and important alerts.</p>
+    
+        <label>
+            <input type="checkbox" id="enable-sound" checked> Enable Notification Sounds
+        </label><br>
+    
+        <label>
+            <input type="checkbox" id="enable-vibration" checked> Enable Vibration
+        </label><br>
+    
+        <button id="enable-notifications">Enable Notifications</button>
+        <button id="close-notifications">Close</button>
+    </div>
+  </main>
+
+  {% include 'includes/footer.html' %}
+  
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+      <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+  
+  <!-- Main JS Files -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="{% static 'js/scripts.js' %}"></script>
+
+</body>
+</html>

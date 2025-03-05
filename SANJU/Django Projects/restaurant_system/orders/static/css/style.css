@@ -1,0 +1,87 @@
+
+
+
+
+
+
+
+
+
+#status-box {
+    display: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background: white;
+}
+#btn-tracker{
+    background-color: #ce1212;
+    color: #f7eeee;
+}
+
+
+
+
+.order-status-div { 
+    align-items: flex-start;
+    text-align: left; 
+} 
+
+.tick-icon { 
+    text-align: left; 
+    margin-bottom: 15px;
+    width: 100%;
+}
+ .tick-icon img { 
+     width: 100px;
+     height: 100px; 
+ } 
+
+ .order-details { 
+     margin-bottom: 20px; 
+     width: 100%; 
+ }
+
+ .order-details h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+} 
+
+.order-details p { 
+     color: #555; 
+     margin-bottom: 8px; 
+     line-height: 1.4; 
+     text-align: left; 
+    } 
+
+.detail-row {
+    display: flex; 
+    margin-bottom: 8px; 
+} 
+
+.detail-label {
+    font-weight: bold;
+    width: 150px; 
+    color: #333;
+} 
+
+.detail-value {
+    flex: 1;
+    color: #555;
+}
+
+
+ Style for the order status container 
+#orderStatusContainer {
+    display: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    padding: 20px;
+    background: white; 
+}
+
+#initial-content,
+#orderStatusContainer {
+    transition: opacity 0.5s ease-in-out;
+}

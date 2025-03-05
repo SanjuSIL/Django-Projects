@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Window</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Layer -->
+        <div class="header">
+            <img src="logo.png" alt="Company Logo" class="logo">
+            <h1 class="company-name">Company Name</h1>
+        </div>
+
+        <!-- Scrolling Image Tiles -->
+        <div class="image-tiles">
+            <div class="tiles-container">
+                <img src="image1.jpg" alt="Image 1" class="tile">
+                <img src="image2.jpg" alt="Image 2" class="tile">
+                <img src="image3.jpg" alt="Image 3" class="tile">
+                <img src="image4.jpg" alt="Image 4" class="tile">
+                <img src="image5.jpg" alt="Image 5" class="tile">
+                <img src="image6.jpg" alt="Image 6" class="tile">
+                <img src="image7.jpg" alt="Image 7" class="tile">
+                <img src="image8.jpg" alt="Image 8" class="tile">
+            </div>
+        </div>
+
+        <!-- Chat Response Area -->
+        <div class="chat-response">
+            <div class="message-bubble server">Hi, Good Day, Welcome!</div>
+            <div class="message-bubble server">Kindly Enter the Bill Number and Send so that we can Track your Order.</div>
+        </div>
+
+        <!-- Chat Request Area -->
+        <div class="chat-request">
+            <div class="predefined-buttons">
+                <button class="menu-button">Order Status</button>
+                <button class="menu-button">Menu</button>
+                <button class="menu-button">Feedback</button>
+                <button class="menu-button">Rating</button>
+            </div>
+            <div class="input-area">
+                <input type="text" placeholder="Enter your message..." id="chat-input">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+
+        <!-- Branding Area -->
+        <div class="branding">
+            <p>Product Name</p>
+        </div>
+
+        <!-- Permission Popup -->
+        <div id="permission-popup" class="popup">
+            <div class="popup-content">
+                <p>Please grant permissions to play sound, receive notifications, and enable vibration.</p>
+                <button id="grant-permission">Grant Permission</button>
+                <button id="deny-permission">Deny Permission</button>
+            </div>
+        </div>
+
+        <!-- Notification Popup -->
+        <div id="notification-popup" class="popup">
+            <div class="popup-content">
+                <p>Your Order is Ready!</p>
+                <button id="ok-notification">OK</button>
+                <button id="disable-notifications">Disable Notifications</button>
+            </div>
+        </div>
+
+        <!-- Welcome Message Popup -->
+        <div id="welcome-popup" class="popup">
+            <div class="popup-content">
+                <p>Hi, Welcome, Good Day. Could you please enter the Bill Number and Send so that I can Search the Order Status.</p>
+                <button id="ok-welcome">OK</button>
+                <button id="disable-welcome">Disable</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
