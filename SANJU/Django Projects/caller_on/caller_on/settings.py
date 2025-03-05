@@ -22,6 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-!+-6$-a)3#hoe=#bf0^2(al(-is(we3!rok7oi23n0xlr&vozv'
 
+# settings.py
+
+VAPID_PUBLIC_KEY = "BGmYRdxITPNLhnmoEJMQ1_34wh-TzeHF1W5fifBI2tBzqllgcgXzrqROV4MC5qHuhxMgwpko6XKcBRS1JJggQc4"
+VAPID_PRIVATE_KEY = "XpACL11h-ZzIlTpNrSF_89FMhuIyNvgFT0LcoRCzKjY"
+VAPID_CLAIMS = {"sub": "mailto:sanju.softland@gmail.com"}
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -40,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_extensions',
+    'notifications',
     'orders',
     'vendors'
 ]
