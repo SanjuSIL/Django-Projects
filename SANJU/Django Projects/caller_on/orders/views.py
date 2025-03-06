@@ -7,11 +7,6 @@ from vendors.serializers import OrdersSerializer
 from vendors.models import Order,Vendor
 from django.core.cache import cache
 
-from django.conf import settings
-from pywebpush import webpush, WebPushException
-import json
-from notifications.models import PushSubscription
-
 def home(request):
     cache.clear()
     return render(request, 'index.html')
@@ -53,22 +48,6 @@ def check_status(request):
                 serializer.save()
                 data = serializer.data
                 data['message'] = 'Order created with status preparing.'
-                payload = json.dumps({
-                    "title": "New Order",
-                    "body": f"Order with token {token_no} has been created."
-                })
-
-                subscriptions = PushSubscription.objects.all()
-                for sub in subscriptions:
-                    try:
-                        webpush(
-                            subscription_info=sub.subscription_info,
-                            data=payload,
-                            vapid_private_key=settings.VAPID_PRIVATE_KEY,
-                            vapid_claims=settings.VAPID_CLAIMS,
-                        )
-                    except WebPushException as ex:
-                        print("Push error:", ex)
                 return Response(data, status=status.HTTP_201_CREATED)
             else:
                 return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
