@@ -12,7 +12,6 @@ def home(request):
     return render(request, 'index.html')
 
 
-
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def check_status(request):

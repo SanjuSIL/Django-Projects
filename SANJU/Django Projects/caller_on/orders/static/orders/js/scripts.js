@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let billNumberEntered = false;
     let orderStatusInterval;
 
+    
+   
+
     function setVh() {
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -33,6 +36,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     document.getElementById('grant-permission').addEventListener('click', function() {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                console.log("Notifications allowed!");
+                registerServiceWorker();
+            } else {
+                console.log("Notifications denied!");
+            }
+        });
         permissionModal.hide();
         requestPermissions();
     });
