@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('vendors', '0006_order_device'),
     ]
-
+    
     operations = [
         migrations.AlterField(
             model_name='order',

@@ -32,7 +32,7 @@ VAPID_CLAIMS = {"sub": "mailto:sanju.softland@gmail.com"}
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['192.168.0.197', 'random-id.ngrok-free.app','0.0.0.0']
 CORS_ALLOW_ALL_ORIGINS = True
 
 

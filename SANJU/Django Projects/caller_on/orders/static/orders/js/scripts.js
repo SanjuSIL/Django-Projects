@@ -14,9 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let billNumberEntered = false;
     let orderStatusInterval;
 
-    
-   
-
+ 
+    console.log("Notifiation api supported","Notification" in window);
     function setVh() {
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -35,11 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     }
     
-    document.getElementById('grant-permission').addEventListener('click', function() {
+    document.getElementById('grant-permission').addEventListener('click', ()=> {
         Notification.requestPermission().then(permission => {
+            console.log("permission:",permission)
             if (permission === "granted") {
                 console.log("Notifications allowed!");
-                registerServiceWorker();
             } else {
                 console.log("Notifications denied!");
             }
@@ -138,32 +137,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
     
-    // async function fetchOrderStatusUpdate(token) {
-    //     try {
-    //         const response = await fetch(`/check-status/?token_no=${token}`);
-    //         if (!response.ok) {
-    //             throw new Error(`HTTP error! status: ${response.status}`);
-    //         }
-    //         const data = await response.json();
-    //         appendMessage(`Order Status: ${data.status || "Unknown"} for Bill #${token}.Counter no:${data.counter_no}`, 'server');
-           
-    //         if (data.status === "ready") {
-    //             playNotificationSound();
-    //             playOrderReadySound();
-    //             notificationModal.show();
-    //             if (navigator.vibrate) {
-    //                 navigator.vibrate([500, 200, 500, 200, 500, 200, 500]);
-    //             }
-    //             clearInterval(orderStatusInterval);
-    //         }
-    //         // No recursive call here. Polling continues until status is "ready".
-    //     } catch (error) {
-    //         console.error("Error fetching update:", error);
-    //         appendMessage("Error fetching order status. Please try again.", 'server');
-    //         clearInterval(orderStatusInterval);
-    //     }
-    // }
-    
     function fetchOrderStatusUpdate(token) {
         fetch(`/check-status/?token_no=${token}`)
             .then(response => {
@@ -181,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <strong>Token No:</strong> ${token}
             `;
             appendMessage(messageHTML, 'server');
-                // appendMessage(`Order Status: ${data.status || "Unknown"} for Bill #${token}.`, 'server');
                 if (data.status === "ready") {
                     playNotificationSound();
                     playOrderReadySound();
