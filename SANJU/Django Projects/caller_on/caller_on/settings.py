@@ -24,15 +24,15 @@ SECRET_KEY = 'django-insecure-!+-6$-a)3#hoe=#bf0^2(al(-is(we3!rok7oi23n0xlr&vozv
 
 # settings.py
 
-VAPID_PUBLIC_KEY = "BGmYRdxITPNLhnmoEJMQ1_34wh-TzeHF1W5fifBI2tBzqllgcgXzrqROV4MC5qHuhxMgwpko6XKcBRS1JJggQc4"
-VAPID_PRIVATE_KEY = "XpACL11h-ZzIlTpNrSF_89FMhuIyNvgFT0LcoRCzKjY"
+VAPID_PUBLIC_KEY = "BE_nRyG4teLDX5IIeKaYrz5MUguUp3B0vxuBnCHowgNcXH6lZ3N5W6FAurkJZkOSxamISYtGth4EHA--8RkiIFA"
+VAPID_PRIVATE_KEY = "VwNg3OAqqItodRkxwO7fkwF1HmmncewXICqA4SbYtDg"
 VAPID_CLAIMS = {"sub": "mailto:sanju.softland@gmail.com"}
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.197', 'random-id.ngrok-free.app','0.0.0.0']
+ALLOWED_HOSTS = ['192.168.0.197', 'random-id.ngrok-free.app','0.0.0.0','127.0.0.1']
 CORS_ALLOW_ALL_ORIGINS = True
 
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_extensions',
+    'webpush',
     'orders',
     'vendors'
 ]
