@@ -100,3 +100,50 @@ def update_order(request):
         )
 
 
+# views.py
+import requests
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt  # Disable CSRF if you don't have a token from the device
+def proxy_update_order(request):
+    """
+    This view acts as a proxy for the update_order endpoint.
+    It accepts an HTTP request from the ESP8266 and forwards it to the HTTPS API.
+    """
+    # Adjust this URL to match your HTTPS endpoint (including the '/api/update-order/' path)
+    target_url = "https://dbd0-202-88-237-210.ngrok-free.app/vendors/api/update-order/"
+    
+    # Copy request headers. Remove 'Host' header so that 'requests' can set it automatically.
+    headers = {key: value for key, value in request.headers.items() if key.lower() != "host"}
+
+    try:
+        # Forward PATCH requests (your update_order endpoint uses PATCH)
+        if request.method.upper() == "PATCH":
+            response = requests.patch(
+                target_url,
+                data=request.body,  # Passing raw body data
+                headers=headers,
+                timeout=10  # Adjust timeout as needed
+            )
+        # For any other method, you might want to support GET (or add more conditions)
+        else:
+            response = requests.get(
+                target_url,
+                params=request.GET,
+                headers=headers,
+                timeout=10
+            )
+
+        # Return the proxied response content and status code back to the caller
+        django_response = HttpResponse(
+            response.content,
+            status=response.status_code,
+            content_type=response.headers.get("Content-Type", "application/octet-stream")
+        )
+        return django_response
+
+    except requests.RequestException as e:
+        # In case of error, return a 500 response with an error message
+        error_message = f"Error proxying request: {str(e)}"
+        return HttpResponse(error_message, status=500)

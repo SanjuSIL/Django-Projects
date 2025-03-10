@@ -6,6 +6,4 @@ urlpatterns = [
     
     # Fetch order status (GET request)
     path('check-status/', views.check_status, name='check_status'),
-    path('subscribe/', views.subscribe, name='subscribe'),
-    path('send-notification/', views.send_push_notification, name='send_notification'),
 ]

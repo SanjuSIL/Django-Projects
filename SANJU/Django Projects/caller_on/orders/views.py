@@ -9,7 +9,7 @@ from django.core.cache import cache
 
 def home(request):
     cache.clear()
-    return render(request, 'index.html')
+    return render(request, 'orders/index.html')
 
 
 @api_view(['GET'])
@@ -56,32 +56,4 @@ def check_status(request):
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-from webpush import send_user_notification
-from .models import PushSubscription
-from .serializers import PushSubscriptionSerializer
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def subscribe(request):
-    """Save the Web Push subscription details."""
-    serializer = PushSubscriptionSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({"message": "Subscription saved successfully."}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def send_push_notification(request):
-    """Send a push notification to all subscribers."""
-    message = request.data.get("message", "Your order is ready!")
-    
-    subscriptions = PushSubscription.objects.all()
-    payload = {"head": "Order Status", "body": message, "icon": "/static/images/notification_icon.png"}
-    
-    for subscription in subscriptions:
-        send_user_notification(user=None, payload=payload, ttl=1000, endpoint=subscription.endpoint)
-
-    return Response({"message": "Push notification sent successfully."}, status=status.HTTP_200_OK)
 
