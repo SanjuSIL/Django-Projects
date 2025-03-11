@@ -23,10 +23,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!+-6$-a)3#hoe=#bf0^2(al(-is(we3!rok7oi23n0xlr&vozv'
 
 # settings.py
+import os
+from dotenv import load_dotenv
 
-VAPID_PUBLIC_KEY = "BE_nRyG4teLDX5IIeKaYrz5MUguUp3B0vxuBnCHowgNcXH6lZ3N5W6FAurkJZkOSxamISYtGth4EHA--8RkiIFA"
-VAPID_PRIVATE_KEY = "VwNg3OAqqItodRkxwO7fkwF1HmmncewXICqA4SbYtDg"
-VAPID_CLAIMS = {"sub": "mailto:sanju.softland@gmail.com"}
+load_dotenv()  # Load environment variables
+
+VAPID_PUBLIC_KEY = os.getenv("VAPID_PUBLIC_KEY")
+VAPID_PRIVATE_KEY = os.getenv("VAPID_PRIVATE_KEY")
+VAPID_CLAIMS = {
+    "sub": "mailto:sanju.softland@gmail.com"
+}
+# VAPID_PUBLIC_KEY = "BE_nRyG4teLDX5IIeKaYrz5MUguUp3B0vxuBnCHowgNcXH6lZ3N5W6FAurkJZkOSxamISYtGth4EHA--8RkiIFA"
+# VAPID_PRIVATE_KEY = "VwNg3OAqqItodRkxwO7fkwF1HmmncewXICqA4SbYtDg"
+# VAPID_CLAIMS = {"sub": "mailto:sanju.softland@gmail.com"}
 
 
 # SECURITY WARNING: don't run with debug turned on in production!

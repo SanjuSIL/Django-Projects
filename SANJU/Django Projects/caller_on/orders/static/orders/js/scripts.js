@@ -14,7 +14,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let billNumberEntered = false;
     let orderStatusInterval;
 
- 
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/static/orders/js/service-worker.js")
+        .then((registration) => {
+            console.log("Service Worker Registered:", registration);
+        })
+        .catch((error) => {
+            console.error("Service Worker Registration Failed:", error);
+        });
+    }
+    
     console.log("Notifiation api supported","Notification" in window);
     function setVh() {
         let vh = window.innerHeight * 0.01;
