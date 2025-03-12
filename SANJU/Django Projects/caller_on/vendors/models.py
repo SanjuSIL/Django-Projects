@@ -40,3 +40,13 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Token {self.token_no}"
+
+class PushSubscription(models.Model):
+    browser_id = models.CharField(max_length=255, unique=True)
+    endpoint = models.TextField(unique=True)
+    p256dh = models.TextField()
+    auth = models.TextField()
+    tokens = models.ManyToManyField(Order, blank=True)  # Many-to-Many with orders
+
+    def __str__(self):
+        return f"Subscription for {self.browser_id}"

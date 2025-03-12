@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Order,Vendor,Device
+from .models import Order,Vendor,Device, PushSubscription
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -112,7 +112,7 @@ def proxy_update_order(request):
     It accepts an HTTP request from the ESP8266 and forwards it to the HTTPS API.
     """
     # Adjust this URL to match your HTTPS endpoint (including the '/api/update-order/' path)
-    target_url = "https://ea9f-202-88-237-210.ngrok-free.app/vendors/api/update-order/"
+    target_url = "https://eb81-202-88-237-210.ngrok-free.app/vendors/api/update-order/"
     
     # Copy request headers. Remove 'Host' header so that 'requests' can set it automatically.
     headers = {key: value for key, value in request.headers.items() if key.lower() != "host"}
@@ -147,3 +147,42 @@ def proxy_update_order(request):
         # In case of error, return a 500 response with an error message
         error_message = f"Error proxying request: {str(e)}"
         return HttpResponse(error_message, status=500)
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from django.shortcuts import get_object_or_404
+import json
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def save_subscription(request):
+    data = json.loads(request.body)
+    endpoint = data.get("endpoint")
+    keys = data.get("keys", {})
+    browser_id = data.get("browser_id")
+    token_number = data.get("token_number")
+
+    if not endpoint or not browser_id or not token_number:
+        return Response({"error": "Invalid subscription data"}, status=400)
+
+    # Get or create subscription by browser_id
+    subscription, created = PushSubscription.objects.get_or_create(
+        browser_id=browser_id,
+        defaults={
+            "endpoint": endpoint,
+            "p256dh": keys.get("p256dh", ""),
+            "auth": keys.get("auth", ""),
+        },
+    )
+
+    # Update keys in case they changed
+    subscription.endpoint = endpoint
+    subscription.p256dh = keys.get("p256dh", "")
+    subscription.auth = keys.get("auth", "")
+    subscription.save()
+
+    # Link the subscription to the token
+    order = get_object_or_404(Order, token_no=token_number)
+    subscription.tokens.add(order)  # Add token to subscription
+
+    return Response({"message": "Subscription updated successfully"})

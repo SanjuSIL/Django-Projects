@@ -1,12 +1,15 @@
 self.addEventListener("install", (event) => {
     console.log("Service Worker Installed");
+    // Force the waiting service worker to become active
     self.skipWaiting();
-});
-
-self.addEventListener("activate", (event) => {
+  });
+  
+  self.addEventListener("activate", (event) => {
     console.log("Service Worker Activated");
-    return self.clients.claim();
-});
+    // Take control of all clients immediately
+    event.waitUntil(clients.claim());
+  });
+  
 
 self.addEventListener("push", (event) => {
     console.log("Push Event Received", event);

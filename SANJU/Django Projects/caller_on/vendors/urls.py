@@ -8,5 +8,6 @@ urlpatterns = [
     path('api/list-order/', views.list_order, name='list-order'),
     # Add the proxy endpoint
     path('proxy/api/update-order/', views.proxy_update_order, name='proxy-update-order'),
+    path('api/save-subscription/', views.save_subscription, name='save-subscription'),
     
 ]
