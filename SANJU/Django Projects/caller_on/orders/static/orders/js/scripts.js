@@ -107,19 +107,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     applicationServerKey: urlBase64ToUint8Array(vapidKey)
                 });
                 console.log("New subscription created:", subscription);
-            }
+                console.log("Subscription JSON string:", JSON.stringify(subscription));
 
+            }
+            
             // Save subscription to server if changed.
             const newSubscriptionJSON = JSON.stringify(subscription);
             const storedSubscription = localStorage.getItem("pushSubscription");
             if (storedSubscription !== newSubscriptionJSON) {
+                // Convert the subscription to JSON to ensure we have plain objects.
+                const sub = subscription.toJSON();
+
                 const payload = {
-                    endpoint: subscription.endpoint,
-                    keys: subscription.keys,
-                    token_number: token,
-                    browser_id: getBrowserId()
+                    endpoint: sub.endpoint,       // e.g., "https://fcm.googleapis.com/fcm/send/..."
+                    keys: sub.keys,               // Contains "p256dh" and "auth"
+                    browser_id: getBrowserId(),   // Your generated browser ID
+                    token_number: token           // The token provided by the user
                 };
-                
+                                
                 const response = await fetch('/vendors/api/save-subscription/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

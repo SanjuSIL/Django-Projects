@@ -11,23 +11,34 @@ self.addEventListener("install", (event) => {
   });
   
 
-self.addEventListener("push", (event) => {
-    console.log("Push Event Received", event);
-    const data = event.data ? event.data.json() : {};
-    
-    const title = data.title || "Notification";
+  {% comment %} self.addEventListener('push', (event) => {
+    console.log('[Service Worker] Push Received:', event);
+  
+    let data = {};
+    if (event.data) {
+      // If you're sending JSON payloads:
+      data = event.data.json();
+    } else {
+      data = { title: "Default Title", body: "Default body" };
+    }
+  
+    const title = data.title || "Order Update";
     const options = {
-        body: data.body || "You have a new update!",
-        icon: "/static/orders/images/notification-icon.png", // Optional icon
-        badge: "/static/orders/images/badge-icon.png", // Optional badge
-        vibrate: [200, 100, 200], // Vibration pattern
-        data: { url: data.url || "/" } // URL to open when clicked
+      body: data.body || "Your order is ready!",
+      icon: "/static/orders/images/logo.png" // optional
     };
-
+  
+    event.waitUntil(self.registration.showNotification(title, options));
+  }); {% endcomment %}
+  self.addEventListener('push', (event) => {
+    console.log("Push event:", event);
+    const message = event.data ? event.data.text() : "No payload";
     event.waitUntil(
-        self.registration.showNotification(title, options)
+      self.registration.showNotification("Test Notification", { body: message })
     );
-});
+  });
+  
+  
 
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
