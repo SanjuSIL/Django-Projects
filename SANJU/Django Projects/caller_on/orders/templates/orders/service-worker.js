@@ -11,32 +11,38 @@ self.addEventListener("install", (event) => {
   });
   
 
-  {% comment %} self.addEventListener('push', (event) => {
+  self.addEventListener('push', (event) => {
     console.log('[Service Worker] Push Received:', event);
-  
+
     let data = {};
     if (event.data) {
-      // If you're sending JSON payloads:
-      data = event.data.json();
+        try {
+            data = event.data.json();
+            console.log('Received Push Data:', data);
+        } catch (error) {
+            console.error('Error parsing push data:', error);
+        }
     } else {
-      data = { title: "Default Title", body: "Default body" };
+        console.warn('No data received, using defaults.');
+        data = { title: "Default Title", body: "Default body" };
     }
-  
+
     const title = data.title || "Order Update";
     const options = {
-      body: data.body || "Your order is ready!",
-      icon: "/static/orders/images/logo.png" // optional
+        body: data.body || "Your order is ready!",
+        icon: "/static/orders/images/logo.png"
     };
-  
+
     event.waitUntil(self.registration.showNotification(title, options));
-  }); {% endcomment %}
-  self.addEventListener('push', (event) => {
+});
+
+  {% comment %} self.addEventListener('push', (event) => {
     console.log("Push event:", event);
     const message = event.data ? event.data.text() : "No payload";
     event.waitUntil(
       self.registration.showNotification("Test Notification", { body: message })
     );
-  });
+  }); {% endcomment %}
   
   
 
