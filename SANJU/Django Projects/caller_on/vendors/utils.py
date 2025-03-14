@@ -8,6 +8,7 @@ def send_push_notification(subscription_info, payload):
         headers = {
             "Content-Type": "application/json"
         }
+        print(payload)
         webpush(
             subscription_info=subscription_info,
             data=json.dumps(payload),

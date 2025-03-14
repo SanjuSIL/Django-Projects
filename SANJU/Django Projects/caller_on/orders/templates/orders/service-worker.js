@@ -11,7 +11,7 @@ self.addEventListener("install", (event) => {
   });
   
 
-  self.addEventListener('push', (event) => {
+  {% comment %} self.addEventListener('push', (event) => {
     console.log('[Service Worker] Push Received:', event);
 
     let data = {};
@@ -34,15 +34,48 @@ self.addEventListener("install", (event) => {
     };
 
     event.waitUntil(self.registration.showNotification(title, options));
+}); {% endcomment %}
+
+self.addEventListener('push', (event) => {
+  console.log('[Service Worker] Push Received:', event);
+
+  let data = {};
+  if (event.data) {
+      try {
+          data = event.data.json();
+          console.log('Push data:', data);
+      } catch (error) {
+          console.error('Error parsing push data:', error);
+      }
+  } else {
+      data = { title: "Order Update", body: "Your order is ready!" };
+  }
+
+  const title = data.title || "Order Update";
+  const options = {
+      body: data.body || "Your order is ready!",
+      icon: "/static/orders/images/logo.png",
+      // Attach full payload data so that clients can use it.
+      data: data
+  };
+
+  event.waitUntil(
+      self.registration.showNotification(title, options)
+      .then(() => {
+          // Broadcast the push message to all client pages.
+          return self.clients.matchAll({ includeUncontrolled: true, type: 'window' })
+          .then(clients => {
+              clients.forEach(client => {
+                  client.postMessage({
+                      type: 'PUSH_STATUS_UPDATE',
+                      payload: data
+                  });
+              });
+          });
+      })
+  );
 });
 
-  {% comment %} self.addEventListener('push', (event) => {
-    console.log("Push event:", event);
-    const message = event.data ? event.data.text() : "No payload";
-    event.waitUntil(
-      self.registration.showNotification("Test Notification", { body: message })
-    );
-  }); {% endcomment %}
   
   
 

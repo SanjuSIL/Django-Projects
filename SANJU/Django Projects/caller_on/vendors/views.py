@@ -156,7 +156,14 @@ def update_order(request):
 
         # After updating/creating the order, send push notifications
         subscriptions = PushSubscription.objects.filter(tokens__token_no=token_no)
-        payload = "Your order is ready!"  # Customize payload as needed
+        # payload = "Your order is ready!" 
+        payload = {
+            "title": "Order Update",
+            "body": f"Your order {token_no} is now ready.",
+            "token_no": token_no,
+            "status": status_to_update,
+            "counter_no": counter_no
+        }
         push_errors = []
 
         for subscription in subscriptions:

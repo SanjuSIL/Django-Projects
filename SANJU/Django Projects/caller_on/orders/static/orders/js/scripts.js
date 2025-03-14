@@ -1,16 +1,63 @@
 document.addEventListener('DOMContentLoaded', function() {
     const permissionModal = new bootstrap.Modal(document.getElementById('permissionModal'));
     const notificationModal = new bootstrap.Modal(document.getElementById('notificationModal'));
-    const welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'));
     const chatContainer = document.getElementById('chat-container');
     const chatInput = document.getElementById('chat-input');
     const sendButton = document.getElementById('send-button');
     const menuButton = document.getElementById('menu-button');
 
     let notificationsEnabled = true;
-    let welcomeMessageEnabled = true;
-    let audioUnlocked = false;
 
+    // Adjust viewport for mobile devices
+    function setVh() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    window.addEventListener('resize', setVh);
+    setVh();
+    
+    // Show permission modal
+    permissionModal.show();
+
+    // Grant permission button
+    document.getElementById('grant-permission').addEventListener('click', ()=> {
+        permissionModal.hide();
+        requestPermissions();
+        playWelcomeMessage();
+    });
+
+    // Deny permission button
+    document.getElementById('deny-permission').addEventListener('click', function() {
+        permissionModal.hide();
+        alert('Permissions denied. Service may not function properly.');
+    });
+
+    // Additional function to request other permissions or do setup
+    function requestPermissions() {
+        Notification.requestPermission().then(permission => {
+            console.log("permission:",permission);
+            if (permission === "granted") {
+                console.log("Notifications allowed!");
+            } else {
+                console.log("Notifications denied!");
+            }
+        });
+    }
+
+    // Welcome message
+    function playWelcomeMessage() {
+        const welcomeMessage = new SpeechSynthesisUtterance('Hi, Welcome, Good Day. Please enter the Bill Number and send to track your order.');
+        speechSynthesis.speak(welcomeMessage);
+    }
+
+    // Buttons for notification modal
+    document.getElementById('ok-notification').addEventListener('click', function() {
+        notificationModal.hide();
+    });
+    document.getElementById('disable-notifications').addEventListener('click', function() {
+        notificationModal.hide();
+        notificationsEnabled = false;
+    });
     // 1. Register the Service Worker at the root scope
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("/service-worker.js", { scope: '/' })
@@ -28,6 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // You can uncomment this if you want an automatic reload:
         // window.location.reload();
     }
+
+
 
     // Helper to convert your public key
     function urlBase64ToUint8Array(base64String) {
@@ -57,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Subscribe to push notifications (called after user enters a token)
     async function subscribeToPushNotifications(token) {
         try {
-            console.log("First call with token:", token);
             if (!token) {
                 console.error("Token not provided. Cannot subscribe.");
                 return;
@@ -147,17 +195,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log("Notification API supported:", "Notification" in window);
 
-    // Adjust viewport for mobile devices
-    function setVh() {
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'PUSH_STATUS_UPDATE') {
+                const pushData = event.data.payload;
+                console.log('Received push update via postMessage:', pushData);
+                
+                // Customize the chat message as needed. Here we assume pushData contains token_number and status.
+                const messageHTML = `
+                    <strong>Order Status:</strong> ${pushData.status || "Unknown"}<br>
+                    <strong>Counter No:</strong> ${pushData.counter_no || ""}<br>
+                    <strong>Token No:</strong> ${pushData.token_no || ""}
+                    
+                `;
+                appendMessage(messageHTML, 'server');
+                if (pushData.status === "ready") {
+                    playNotificationSound();
+                    const orderReadyMessage = new SpeechSynthesisUtterance(`Your Order ${pushData.token_no} is Ready`);
+                    speechSynthesis.speak(orderReadyMessage);
+                    notificationModal.show();
+                    if (navigator.vibrate) {
+                        navigator.vibrate([500, 200, 500, 200, 500, 200, 500]);
+                    }
+                }
+                const modalHeader = document.querySelector('#notificationModal .modal-body h5');
+                modalHeader.innerHTML = `Order <strong>${pushData.token_no}</strong> is <strong>${pushData.status}</strong> at Counter <strong>${pushData.counter_no}</strong>!`;
+            }
+        });
     }
-    window.addEventListener('resize', setVh);
-    setVh();
-
-    // Show permission modal
-    permissionModal.show();
-
     // Menu button logic
     if (menuButton) {
         menuButton.addEventListener('click', function() {
@@ -165,76 +230,14 @@ document.addEventListener('DOMContentLoaded', function() {
             menuImageModal.show();
         });
     }
-
-    // Grant permission button
-    document.getElementById('grant-permission').addEventListener('click', ()=> {
-        Notification.requestPermission().then(permission => {
-            console.log("permission:",permission);
-            if (permission === "granted") {
-                console.log("Notifications allowed!");
-            } else {
-                console.log("Notifications denied!");
-            }
-        });
-        permissionModal.hide();
-        requestPermissions();
-    });
-
-    // Deny permission button
-    document.getElementById('deny-permission').addEventListener('click', function() {
-        permissionModal.hide();
-        alert('Permissions denied. Service may not function properly.');
-    });
-
-    // Additional function to request other permissions or do setup
-    function requestPermissions() {
-        playWelcomeMessage();
-    }
-
-    // Welcome message
-    function playWelcomeMessage() {
-        const welcomeMessage = new SpeechSynthesisUtterance('Hi, Welcome, Good Day. Please enter the Bill Number and send to track your order.');
-        speechSynthesis.speak(welcomeMessage);
-    }
-
-    // Buttons for welcome modal
-    document.getElementById('ok-welcome').addEventListener('click', function() {
-        welcomeModal.hide();
-    });
-    document.getElementById('disable-welcome').addEventListener('click', function() {
-        welcomeModal.hide();
-        welcomeMessageEnabled = false;
-    });
-
-    // Buttons for notification modal
-    document.getElementById('ok-notification').addEventListener('click', function() {
-        notificationModal.hide();
-    });
-    document.getElementById('disable-notifications').addEventListener('click', function() {
-        notificationModal.hide();
-        notificationsEnabled = false;
-    });
-
-    // Audio setup
-    const notificationAudio = new Audio('/static/orders/audio/0112.mp3');
-    notificationAudio.load();
     
-    function unlockAudio() {
-        notificationAudio.play().then(() => {
-            audioUnlocked = true;
-            console.log('Audio unlocked!');
-        }).catch(err => console.error('Audio unlock failed:', err));
-        document.removeEventListener('click', unlockAudio);
-    }
-
     function playNotificationSound() {
         if (notificationsEnabled) {
-            if (audioUnlocked) {
-                notificationAudio.play().catch(err => console.error('Error playing notification sound:', err));
+            const notificationAudio = new Audio('/static/orders/audio/0112.mp3');
+            notificationAudio.play().catch(err => console.error('Error playing notification sound:', err));
             } else {
                 console.log('Audio not unlocked. Please tap anywhere to enable audio.');
             }
-        }
     }
 
     // Chat messaging
@@ -252,15 +255,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (message !== '') {
             appendMessage(message, 'user');
             chatInput.value = '';
-            unlockAudio();
-
-            // 3. Instead of polling, we rely on push. 
-            // If you still want to do an initial check:
             fetchOrderStatusOnce(message);
         }
     });
 
-    // Single check to confirm the order status, no polling
+    // Single check to confirm the order status
     function fetchOrderStatusOnce(token) {
         fetch(`/check-status/?token_no=${token}`)
             .then(response => {
@@ -280,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // If status is ready, notify user
                 if (data.status === "ready") {
                     playNotificationSound();
-                    const orderReadyMessage = new SpeechSynthesisUtterance('Your Order is Ready');
+                    const orderReadyMessage = new SpeechSynthesisUtterance(`Your Order ${token} is ${data.status}`);
                     speechSynthesis.speak(orderReadyMessage);
                     notificationModal.show();
                     if (navigator.vibrate) {
@@ -296,7 +295,4 @@ document.addEventListener('DOMContentLoaded', function() {
                 appendMessage("Error fetching order status. Please try again.", 'server');
             });
     }
-
-    // Unlock audio on first click
-    document.addEventListener('click', unlockAudio);
 });
