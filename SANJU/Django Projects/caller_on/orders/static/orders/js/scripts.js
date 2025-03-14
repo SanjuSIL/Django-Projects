@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 appendMessage(messageHTML, 'server');
                 if (pushData.status === "ready") {
                     playNotificationSound();
-                    const orderReadyMessage = new SpeechSynthesisUtterance(`Your Order ${pushData.token_no} is Ready`);
+                    const orderReadyMessage = new SpeechSynthesisUtterance(`Your Order ${pushData.token_no} is Ready at Counter ${pushData.counter_no}`);
                     speechSynthesis.speak(orderReadyMessage);
                     notificationModal.show();
                     if (navigator.vibrate) {
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // If status is ready, notify user
                 if (data.status === "ready") {
                     playNotificationSound();
-                    const orderReadyMessage = new SpeechSynthesisUtterance(`Your Order ${token} is ${data.status}`);
+                    const orderReadyMessage = new SpeechSynthesisUtterance(`Your Order ${token} is ${data.status} at the counter ${data.counter_no}.`);
                     speechSynthesis.speak(orderReadyMessage);
                     notificationModal.show();
                     if (navigator.vibrate) {
