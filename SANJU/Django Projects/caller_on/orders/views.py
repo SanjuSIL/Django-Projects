@@ -9,8 +9,7 @@ from django.core.cache import cache
 
 def home(request):
     cache.clear()
-    return render(request, 'index.html')
-
+    return render(request, 'orders/index.html')
 
 
 @api_view(['GET'])

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vendor, Order, Device
+from .models import Vendor, Order, Device, PushSubscription
 
 @admin.register(Vendor)
 class VendorsAdmin(admin.ModelAdmin):
@@ -17,3 +17,15 @@ class DeviceAdmin(admin.ModelAdmin):
     list_display = ('serial_no', 'vendor','created_at','updated_at')
     list_filter = ('serial_no', 'vendor')  # Filter by status and restaurant
     search_fields = ('serial_no',)
+
+
+@admin.register(PushSubscription)
+class PushSubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'browser_id', 'endpoint', 'display_tokens')
+    search_fields = ('browser_id', 'endpoint')
+    list_filter = ('browser_id',)
+
+    def display_tokens(self, obj):
+        # Convert each token_no to str before joining
+        return ", ".join(str(order.token_no) for order in obj.tokens.all())
+    display_tokens.short_description = 'Tokens'

@@ -30,7 +30,7 @@ class Order(models.Model):
     ]
 
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name="orders")
-    device = models.ForeignKey(Device, on_delete=models.CASCADE,null=True, blank=True, related_name="devices")
+    device = models.ForeignKey(Device, on_delete=models.CASCADE,null=True, blank=True, related_name="orders")
     token_no = models.IntegerField(unique=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='preparing')
     counter_no = models.IntegerField(default=1)
@@ -40,3 +40,13 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Token {self.token_no}"
+
+class PushSubscription(models.Model):
+    browser_id = models.CharField(max_length=255, unique=True)
+    endpoint = models.TextField(unique=True)
+    p256dh = models.TextField()
+    auth = models.TextField()
+    tokens = models.ManyToManyField(Order, blank=True)  # Many-to-Many with orders
+
+    def __str__(self):
+        return f"Subscription for {self.browser_id}"
